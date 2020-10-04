@@ -604,6 +604,7 @@ spec:
       targetAverageValue: 1000Mi
 endsnippet
 
+<<<<<<< HEAD
 snippet ds "DaemonSet" !b
 apiVersion: apps/v1
 kind: DaemonSet
@@ -630,4 +631,24 @@ spec:
             cpu: 100m
             memory: 100Mi
 $0
-endsnippet
+
+snippet ep "EndPoint" !b
+kind: Service
+apiVersion: v1
+metadata:
+  name: ${1:my-external-app}
+spec:
+  type: ClusterIP
+  ports:
+  - port: ${2:8080}
+    targetPort: ${2:8080}
+---
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: ${1:my-external-app}
+subsets:
+- addresses:
+  - ip: ${3:10.10.10.10}
+  ports:
+  - port: ${2:8080}
