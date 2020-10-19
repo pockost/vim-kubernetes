@@ -174,6 +174,7 @@ snippet pvc "PersistentVolumeClaim" !b
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
+<<<<<<< HEAD
   name: ${1:name}
   labels:
     # insert any desired labels to identify your claim
@@ -188,6 +189,28 @@ spec:
       # The amount of the volume's storage to request
       storage: ${7:20Gi}
 endsnippet
+
+snippet apv azure_persistent_volume
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: ${1:myPersistentVolume}
+spec:
+  accessModes:
+  - ReadWriteOnce
+  azureDisk:
+    cachingMode: ReadOnly
+    diskName: ${2:name_of_azure_disk}
+    diskURI: ${3:/subscriptions/XXX-XXX-XXX/resourcegroups/loadtest-kube/providers/Microsoft.Compute/disks/name_of_azure_disk}
+    kind: Managed
+    readOnly: false
+  capacity:
+    storage: ${4:100}Gi
+  persistentVolumeReclaimPolicy: ${4:Retain}
+  storageClassName: managed-premium
+  volumeMode: Filesystem
+endsnippet
+
 
 snippet ing "Ingress" !b
 apiVersion: networking.k8s.io/v1
