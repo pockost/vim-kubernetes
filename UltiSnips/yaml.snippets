@@ -174,7 +174,6 @@ snippet pvc "PersistentVolumeClaim" !b
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-<<<<<<< HEAD
   name: ${1:name}
   labels:
     # insert any desired labels to identify your claim
@@ -187,7 +186,7 @@ spec:
   resources:
     requests:
       # The amount of the volume's storage to request
-      storage: ${7:20Gi}
+      storage: ${9:20Gi}
 endsnippet
 
 snippet apv azure_persistent_volume
@@ -626,34 +625,6 @@ spec:
     name: memory
       targetAverageValue: 1000Mi
 endsnippet
-
-<<<<<<< HEAD
-snippet ds "DaemonSet" !b
-apiVersion: apps/v1
-kind: DaemonSet
-metadata:
-  name: ${1:name}
-  namespace: ${2:default}
-  labels:
-    app: $1
-spec:
-  selector:
-    matchLabels:
-      app: $1
-  template:
-    metadata:
-      labels:
-        app: $1
-    spec:
-      containers:
-      - name: $1
-        image: ${3:image/name}
-        imagePullPolicy: IfNotPresent
-        resources:
-          limits:
-            cpu: 100m
-            memory: 100Mi
-$0
 
 snippet ep "EndPoint" !b
 kind: Service
