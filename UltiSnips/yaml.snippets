@@ -650,3 +650,31 @@ subsets:
   ports:
   - port: ${3:8080}
 endsnippet
+
+snippet ds "DaemonSet" !b
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+	name: ${1:name}
+	namespace: ${2:default}
+	labels:
+		app: $1
+spec:
+	selector:
+		matchLabels:
+			app: $1
+	template:
+		metadata:
+			labels:
+				app: $1
+		spec:
+			containers:
+			- name: $1
+				image: ${3:image/name}
+				imagePullPolicy: IfNotPresent
+				resources:
+					limits:
+						cpu: 100m
+						memory: 100Mi
+$0
+endsnippet
