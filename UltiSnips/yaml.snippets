@@ -524,8 +524,8 @@ snippet rbac "Role and Binding" !b
 kind: ${1:Cluster}Role
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  ${2:namespace: ${3:default}
-  }name: ${4:configmap-updater}
+  ${2:namespace: ${3:default}}
+  name: ${4:configmap-updater}
 rules:
 - apiGroups: ["${5:}"]
   resources: ["${6:configmaps}"]
@@ -541,7 +541,7 @@ metadata:
 subjects:
 - kind: ${10:User|ServiceAccount|Group}
   name: ${11:jane} # Name is case sensitive
-  apiGroup: rbac.authorization.k8s.io
+  ${2:namespace: ${3:default}}
 roleRef:
   kind: $1Role #this must be Role or ClusterRole
   name: $4 # this must match the name of the Role or ClusterRole you wish to bind to
