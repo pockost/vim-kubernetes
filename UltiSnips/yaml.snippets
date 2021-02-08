@@ -524,8 +524,8 @@ snippet rbac "Role and Binding" !b
 kind: ${1:Cluster}Role
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  ${2:namespace: ${3:default}}
-  name: ${4:configmap-updater}
+  ${2:namespace: ${3:default}
+  }name: ${4:configmap-updater}
 rules:
 - apiGroups: ["${5:}"]
   resources: ["${6:configmaps}"]
@@ -533,16 +533,16 @@ rules:
   verbs: [${8:"update", "get"}]
 ---
 # This role binding allows "jane" to read pods in the "default" namespace.
-kind: ${9:Cluster}RoleBinding
+kind: ${1:Cluster}RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: $4
   $2
 subjects:
-- kind: ${10:User|ServiceAccount|Group}
-  name: ${11:jane} # Name is case sensitive
-  ${2:namespace: ${3:default}}
-roleRef:
+- kind: ${9:User|ServiceAccount|Group}
+  name: ${10:jane} # Name is case sensitive
+  ${2:namespace: ${3:default}
+}roleRef:
   kind: $1Role #this must be Role or ClusterRole
   name: $4 # this must match the name of the Role or ClusterRole you wish to bind to
   apiGroup: rbac.authorization.k8s.io
@@ -637,18 +637,32 @@ spec:
   ports:
   - port: ${3:8080}
     targetPort: ${3:8080}
+	name: ${5:metrics}
 ---
 kind: Endpoints
 apiVersion: v1
 metadata:
   name: ${1:my-external-app}
   namespace: ${2:namespace}
-spec:
 subsets:
 - addresses:
   - ip: ${4:10.10.10.10}
   ports:
-  - port: ${3:8080}
+  - name: ${5}
+    port: ${3:8080}
+endsnippet
+
+snippet sc "storage class" b
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: ${1:standard}
+provisioner: ${2:kubernetes.io/aws-ebs}
+${3:parameters:
+  type: gp2}
+reclaimPolicy: ${4:Delete}
+${5:allowVolumeExpansion: true}
+volumeBindingMode: WaitForFirstConsumer
 endsnippet
 
 snippet ds "DaemonSet" !b
