@@ -672,6 +672,32 @@ ${5:allowVolumeExpansion: true}
 volumeBindingMode: WaitForFirstConsumer
 endsnippet
 
+snippet sm "serviceMonitor" b
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: ${1:name}
+  namespace: ${2:namespace}
+  labels:
+  	release: prometheus
+	${3:labels}
+spec:
+  endpoints:
+  - honorLabels: true
+    interval: 15s
+    path: /metrics
+    port: http
+    scheme: http
+    scrapeTimeout: 10s
+  jobLabel: ${4:jobName}
+  namespaceSelector:
+    matchNames:
+    - ${2:namespace}
+  selector:
+    matchLabels:
+      ${3:labels}
+endsnippet
+
 snippet ds "DaemonSet" !b
 apiVersion: apps/v1
 kind: DaemonSet
