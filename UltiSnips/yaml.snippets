@@ -697,6 +697,41 @@ spec:
     matchLabels:
       ${3:labels}
 endsnippet
+snippet smb "serviceMonitor Blackbox" b
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: ${1:sample}
+  namespace: ${2:default}
+  labels:
+    release: prometheus
+    ${3:app: headerecho}
+spec:
+  endpoints:
+  - 
+    interval: 15s
+    path: "/probe"
+    port: ${4:metrics}
+    scheme: http
+    scrapeTimeout: 10s
+    relabelings:
+      - sourceLabels: [__address__]
+        targetLabel: __param_target
+      - sourceLabels: [__param_target]
+        targetLabel: instance
+      - targetLabel: __address__
+        replacement: ${5:blackbox-prometheus-blackbox-exporter.monitoring.svc.cluster.local:9115}
+    params:
+      module:
+        - ${6:tcp_connect}
+  namespaceSelector:
+    matchNames:
+    - ${2:default}
+  selector:
+    matchLabels:
+      ${3:app: headerecho}
+endsnippet
 
 snippet ds "DaemonSet" !b
 apiVersion: apps/v1
